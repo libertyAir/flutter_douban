@@ -45,7 +45,7 @@ class HomeMovieItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         //左侧图片
-        Image.network(item.imageURL,width: 110,),
+        buildImageWidget(),
         SizedBox(width: 8,),
         //中间内容
         buildInfoContent(),
@@ -57,6 +57,14 @@ class HomeMovieItem extends StatelessWidget {
         buildWishWidget(),
         SizedBox(width: 8,),
       ],
+    );
+  }
+  
+  //2.0 左边图片
+  Widget buildImageWidget() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(3),
+      child: Image.network(item.imageURL,width: 110,)
     );
   }
 
@@ -92,16 +100,18 @@ class HomeMovieItem extends StatelessWidget {
 
   //2.1.2评分
   Widget buildInfoPriceWidget() {
-    return Row(
-      children: <Widget>[
-        StarRating(
-          price: item.rating,
-          size: 15,
-          selectedColor: Colors.orangeAccent,
-        ),
-        SizedBox(width: 5),
-        Text(item.rating.toString())
-      ],
+    return FittedBox(
+      child: Row(
+        children: <Widget>[
+          StarRating(
+            price: item.rating,
+            size: 15,
+            selectedColor: Colors.orangeAccent,
+          ),
+          SizedBox(width: 5),
+          Text(item.rating.toString())
+        ],
+      ),
     );
   }
 
@@ -115,6 +125,7 @@ class HomeMovieItem extends StatelessWidget {
 
     return Text(
       "$genresString / $directorString / $actorString",
+      softWrap: true,
       maxLines:3, //这里最大行数 待研究一下
       overflow: TextOverflow.ellipsis,
       style: TextStyle(fontSize: 16),
